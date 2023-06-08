@@ -147,20 +147,22 @@ struct ContenttView: View {
                                 }
                                 Image(day.weather)
                                     .padding(.bottom, 65)
-                                HStack{
-                                    ForEach(day.forecastByHour, id: \.self) { forecast in
-                                        VStack(spacing: 1.0){
-                                            Text(forecast.time)
-                                                .font(.caption2)
-                                                .foregroundColor(.white)
-                                            Image("\(forecast.weather)_b")
-                                            Text("\(forecast.temp)°")
-                                                .font(.title2)
-                                                .fontWeight(.medium)
-                                                .foregroundColor(.white)
-                                                .padding(.leading, 5)
-                                        }
-                                    }.padding(.horizontal,1)
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack{
+                                        ForEach(day.forecastByHour, id: \.self) { forecast in
+                                            VStack(spacing: 1.0){
+                                                Text(forecast.time)
+                                                    .font(.caption2)
+                                                    .foregroundColor(.white)
+                                                Image("\(forecast.weather)_b")
+                                                Text("\(forecast.temp)°")
+                                                    .font(.title2)
+                                                    .fontWeight(.medium)
+                                                    .foregroundColor(.white)
+                                                    .padding(.leading, 5)
+                                            }
+                                        }.padding(.horizontal,1)
+                                    }
                                 }
                                 .padding(.horizontal, 30)
                                 .background(

@@ -48,24 +48,23 @@ import CoreLocation
                 let hourlyForecasts = groupedHourlyForecast[calendar.startOfDay(for: dayForecast.date)] ?? []
                 let filteredHourlyForecasts: [HourWeather]
                 if calendar.isDateInToday(dayForecast.date) {
-                    let currentHour = calendar.component(.hour, from: Date())
                     filteredHourlyForecasts = hourlyForecasts.filter { forecast in
                         let forecastHour = calendar.component(.hour, from: forecast.date)
-                        return forecastHour >= currentHour && forecastHour < currentHour + 10 && forecastHour % 2 == currentHour % 2
+                        return forecastHour % 2 == 0
                     }
                 } else {
                     filteredHourlyForecasts = hourlyForecasts.filter { forecast in
                         let forecastHour = calendar.component(.hour, from: forecast.date)
-                        return forecastHour < 10 && forecastHour % 2 == 0
+                        return forecastHour % 2 == 0
                     }
                 }
                 let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "HH:00"
-                for hourForecast in filteredHourlyForecasts.prefix(5) {
-                                    let time = dateFormatter.string(from: hourForecast.date)
-                                    let forecastByHour = ForecastByHour(temp: "\(Int(hourForecast.temperature.converted(to: .celsius).value))", weather: "\(hourForecast.condition)", time: time)
-                                    forecastsByHour.append(forecastByHour)
-                                }
+                dateFormatter.dateFormat = "HH:00"
+                for hourForecast in filteredHourlyForecasts {
+                    let time = dateFormatter.string(from: hourForecast.date)
+                    let forecastByHour = ForecastByHour(temp: "\(Int(hourForecast.temperature.converted(to: .celsius).value))", weather: "\(hourForecast.condition)", time: time)
+                    forecastsByHour.append(forecastByHour)
+                }
                 
                 let dateFormatter1 = DateFormatter()
                 dateFormatter1.dateFormat = "MMMM, dd"
@@ -87,4 +86,3 @@ import CoreLocation
         }
     }
 }
-
