@@ -38,13 +38,82 @@ struct ContenttView: View {
 
 struct PageView: View {
     var days:[Dayweather] = [
-        Dayweather(weather: "cloud", temp: "22", city: "Goyang-Ilsan", date: "june,21", max: "33", min: "33", isToday: true),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "jucne", max: "33", min: "33", isToday: false),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "judne", max: "33", min: "33", isToday: false),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "junee", max: "33", min: "33", isToday: false),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "jusne", max: "10", min: "33", isToday: false),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "jusne", max: "-1", min: "43", isToday: false),
-        Dayweather(weather: "cloud", temp: "22", city: "seould", date: "jusne", max: "3", min: "1", isToday: false),
+        Dayweather(
+            weather: "rain",
+            temp: "22",
+            city: "Goyang-Ilsan",
+            date: "june,21",
+            max: "33",
+            min: "33",
+            isToday: true,
+            forcestByhour: [
+                ForecastByHour(temp: "11", weather: "cloud", time: "14:00"),
+                ForecastByHour(temp: "11", weather: "cloud", time: "14:00"),
+                ForecastByHour(temp: "11", weather: "cloud", time: "14:00"),
+                ForecastByHour(temp: "11", weather: "cloud", time: "14:00"),
+                ForecastByHour(temp: "11", weather: "cloud", time: "14:00")
+            ]
+        ),
+        Dayweather(
+            weather: "foggy",
+            temp: "22",
+            city: "seould",
+            date: "jucne",
+            max: "33",
+            min: "33",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
+        Dayweather(
+            weather: "clear",
+            temp: "22",
+            city: "seould",
+            date: "judne",
+            max: "33",
+            min: "33",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
+        Dayweather(
+            weather: "mostly clear",
+            temp: "22",
+            city: "seould",
+            date: "junee",
+            max: "33",
+            min: "33",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
+        Dayweather(
+            weather: "thunderstorms",
+            temp: "22",
+            city: "seould",
+            date: "jusne",
+            max: "10",
+            min: "33",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
+        Dayweather(
+            weather: "snow",
+            temp: "22",
+            city: "seould",
+            date: "jusne",
+            max: "-1",
+            min: "43",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
+        Dayweather(
+            weather: "partly cloudy",
+            temp: "22",
+            city: "seould",
+            date: "jusne",
+            max: "3",
+            min: "1",
+            isToday: false,
+            forcestByhour: [ForecastByHour(temp: "11", weather: "cloud", time: "14:00")]
+        ),
     ]
     var body: some View {
         TabView {
@@ -101,7 +170,7 @@ struct PageView: View {
                                             .padding(.top, -20)
                                         }
                                         .padding(.trailing, -40)
-
+                                        
                                         Spacer()
                                     }
                                     Image("center line")
@@ -150,20 +219,38 @@ struct PageView: View {
                         
                     }
                     Image(day.weather)
-                        .padding(.bottom, 15)
-                    RoundedRectangle(cornerRadius: 15.0)
-                        .fill(Color.white)
-                        .opacity(0.1)
-                        .frame(width: 352, height: 120)
+                        .padding(.bottom, 55)
+                    HStack{
+                        ForEach(day.forcestByhour, id: \.self) { forecast in
+                            VStack(spacing: 6.0){
+                                Text(forecast.time)
+                                    .font(.footnote)
+                                    .foregroundColor(.white)
+                                
+                                Image("bottom ex")
+                                Text("\(forecast.temp)°")
+                                    .font(.title2)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                            }
+//                            Spacer()
+                        }
+                    }
+                    .padding(.horizontal, 40)
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color("bottom back"))
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, -15.0))
                 }
             }
-            .padding(.top,-10)
+            .padding(.top,5)
             //            .padding(0)
             //            .padding(.all)
         }
         .background{
             Image("map")}.padding(.bottom, 20)
-            .frame(width: UIScreen.main.bounds.width, height: 750)
+            .frame(width: UIScreen.main.bounds.width, height: 780)
             .tabViewStyle(PageTabViewStyle())
         
     }

@@ -15,4 +15,10 @@ struct Dayweather: Hashable{
     var max: String
     var min: String
     var isToday: Bool
+    var forcestByhour: [ForecastByHour]
+}
+struct ForecastByHour: Hashable{
+    var temp: String
+    var weather: String
+    var time:String
 }
