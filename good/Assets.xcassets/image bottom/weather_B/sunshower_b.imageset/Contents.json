@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "sunshower_b.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
