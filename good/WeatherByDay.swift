@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Dayweather: Hashable{
+struct WeatherByDay: Hashable {
     var weather: String
     var temp: String
     var city: String
@@ -15,10 +15,11 @@ struct Dayweather: Hashable{
     var max: String
     var min: String
     var isToday: Bool
-    var forcestByhour: [ForecastByHour]
+    var forecastByHour: [ForecastByHour]
 }
-struct ForecastByHour: Hashable{
+
+struct ForecastByHour: Hashable {
     var temp: String
     var weather: String
-    var time:String
+    var time: String
 }

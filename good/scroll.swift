@@ -9,7 +9,17 @@ import Foundation
 import SwiftUI
 
 struct ContenttView: View {
+    @ObservedObject var weatherKitManager = WeatherKitManager()
+        @StateObject var locationDataManager = LocationDataManager()
     var body: some View {
+//        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
+//                    Label(weatherKitManager.temp, systemImage: weatherKitManager.symbol)
+//                        .task {
+//                            await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+//                        }
+//                } else {
+//                    Text("Error Loading Location")
+//                }
         ZStack{
             Color("backcolor")
                 .edgesIgnoringSafeArea(.all)
@@ -28,6 +38,10 @@ struct ContenttView: View {
             }
             
                 HStack {
+                    PageView(days: weatherKitManager.weatherByDays)
+                        .task {
+                            await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+                        }
                     GeometryReader { geometry in
                         PageView()
                             .frame(width: geometry.size.width, height: geometry.size.height)
@@ -36,6 +50,11 @@ struct ContenttView: View {
             
         }
     }
+}
+
+
+struct PageView: View {
+    var days:[WeatherByDay] 
     
     
     struct PageView: View {
@@ -236,6 +255,31 @@ struct ContenttView: View {
                                         .padding(.top, 13.7)
                                     }
                                 }
+                                .padding(.leading,10.0)
+                                .padding(.bottom,45)
+                                .padding(.top, 13.7)
+                            }
+                        }
+                        Text(day.city)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.top,-65)
+                        
+                        Text(day.date)
+                            .font(.body)
+                            .fontWeight(.light)
+                            .foregroundColor(Color("date color"))
+                            .padding(.top,-45)
+                        
+                    }
+                    Image(day.weather)
+                        .padding(.bottom, 55)
+                    HStack{
+                        ForEach(day.forecastByHour, id: \.self) { forecast in
+                            VStack(spacing: 6.0){
+                                Text(forecast.time)
+                                    .font(.footnote)
                                 Text(day.city)
                                     .font(.title)
                                     .fontWeight(.bold)
